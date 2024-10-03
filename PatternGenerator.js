@@ -68,7 +68,7 @@ export class PatternGenerator extends HTMLElement {
 		worker.postMessage({ sides: 1 });
 
 		workerTile.onmessage = (e) => {
-			console.log("answer tile", e.data.svg)
+			//console.log("answer tile", e.data.svg)
 			
 			let elem = paper.project.importJSON(e.data.svg)
 			console.log(elem)

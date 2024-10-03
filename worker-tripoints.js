@@ -32,8 +32,8 @@ onmessage = function() {
             this.weights.push(Math.random()*(this.maxWeight-this.minWeight)+this.minWeight)
     })
 
-    console.log(this.points)
-    console.log(this.weights)
+    console.log("points", this.points)
+    console.log("weights", this.weights)
 
     drawPoints()
     console.log(this.triPoints)
@@ -43,21 +43,20 @@ onmessage = function() {
 
     function generatePointList(){
         let points = []
-        for(let i = 0; i<Math.floor(Math.random()*(this.maxPoints-this.minPoints))+this.minPoints; i++){
-            let newPoint = Math.random()*this.len*0.7 + this.len*0.2
-            let minDist = Math.min(...points.map( p => newPoint-p ) )
-            let rescueCount = 0
-            while(points.length > 0 && minDist < 15 && rescueCount < 10){
-                newPoint = Math.random()*this.len*0.7 + this.len*0.2
-                minDist = Math.min(...points.map( p => newPoint-p ) )
-                rescueCount++
-            }
-            console.log(rescueCount)
-            if(rescueCount < 10){
-                points.push(newPoint)
-            }
+        let nrPoints = Math.floor(Math.random()*(this.maxPoints-this.minPoints))+this.minPoints
+        console.log("generating points", nrPoints)
+        let outerBorder = this.len*0.2
+        let innerBorder = this.len*0.1
+        let buffer = this.maxWeight
+        let availableLength = this.len - outerBorder - innerBorder - (nrPoints-1)*2*buffer
+        for(let i = 0; i<nrPoints; i++){
+            points.push(Math.random()*availableLength)
         }
         points.sort((a, b) => a - b)
+        console.log("points", points)
+        for(let i = 0; i<points.length; i++){
+            points[i] = points[i] + outerBorder + buffer*i*2
+        }
         return points
     }
 
