@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stamps</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="node_modules/paper/dist/paper-full.js"></script>
+    <script type="module">
+      import { PatternGenerator } from './PatternGenerator.js';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const patternGenerator = new PatternGenerator();
+        
+        document.body.appendChild(patternGenerator);
+      });
+    </script>
+    
+  </head>
+  <body>
+  <style>
+    pattern-generator {
+      height: 100vh;
+      display: block;
+      width: 100vw;
+    }
+  </style>
+    
+  </body>
+</html>

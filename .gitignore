@@ -1,0 +1,219 @@
+node_modules/.package-lock.json
+node_modules/paper/AUTHORS.md
+node_modules/paper/CHANGELOG.md
+node_modules/paper/LICENSE.txt
+node_modules/paper/package.json
+node_modules/paper/README.md
+node_modules/paper/dist/paper-core.d.ts
+node_modules/paper/dist/paper-core.js
+node_modules/paper/dist/paper-core.min.js
+node_modules/paper/dist/paper-full.js
+node_modules/paper/dist/paper-full.min.js
+node_modules/paper/dist/paper.d.ts
+node_modules/paper/dist/docs/index.html
+node_modules/paper/dist/docs/assets/css/docs.css
+node_modules/paper/dist/docs/assets/js/codemirror.js
+node_modules/paper/dist/docs/assets/js/docs.js
+node_modules/paper/dist/docs/assets/js/jquery.js
+node_modules/paper/dist/docs/assets/js/paper.js
+node_modules/paper/dist/docs/classes/Color.html
+node_modules/paper/dist/docs/classes/CompoundPath.html
+node_modules/paper/dist/docs/classes/Curve.html
+node_modules/paper/dist/docs/classes/CurveLocation.html
+node_modules/paper/dist/docs/classes/Event.html
+node_modules/paper/dist/docs/classes/global.html
+node_modules/paper/dist/docs/classes/Gradient.html
+node_modules/paper/dist/docs/classes/GradientStop.html
+node_modules/paper/dist/docs/classes/Group.html
+node_modules/paper/dist/docs/classes/HitResult.html
+node_modules/paper/dist/docs/classes/index.html
+node_modules/paper/dist/docs/classes/Item.html
+node_modules/paper/dist/docs/classes/Key.html
+node_modules/paper/dist/docs/classes/KeyEvent.html
+node_modules/paper/dist/docs/classes/Layer.html
+node_modules/paper/dist/docs/classes/Matrix.html
+node_modules/paper/dist/docs/classes/MouseEvent.html
+node_modules/paper/dist/docs/classes/PaperScope.html
+node_modules/paper/dist/docs/classes/PaperScript.html
+node_modules/paper/dist/docs/classes/Path.html
+node_modules/paper/dist/docs/classes/PathItem.html
+node_modules/paper/dist/docs/classes/Point.html
+node_modules/paper/dist/docs/classes/PointText.html
+node_modules/paper/dist/docs/classes/Project.html
+node_modules/paper/dist/docs/classes/Raster.html
+node_modules/paper/dist/docs/classes/Rectangle.html
+node_modules/paper/dist/docs/classes/Segment.html
+node_modules/paper/dist/docs/classes/Shape.html
+node_modules/paper/dist/docs/classes/Size.html
+node_modules/paper/dist/docs/classes/Style.html
+node_modules/paper/dist/docs/classes/SymbolDefinition.html
+node_modules/paper/dist/docs/classes/SymbolItem.html
+node_modules/paper/dist/docs/classes/TextItem.html
+node_modules/paper/dist/docs/classes/Tool.html
+node_modules/paper/dist/docs/classes/ToolEvent.html
+node_modules/paper/dist/docs/classes/Tween.html
+node_modules/paper/dist/docs/classes/View.html
+node_modules/paper/dist/node/canvas.js
+node_modules/paper/dist/node/extend.js
+node_modules/paper/dist/node/self.js
+node_modules/paper/dist/node/xml.js
+node_modules/paper/examples/Animated/AnimatedStar.html
+node_modules/paper/examples/Animated/BooleanOperations.html
+node_modules/paper/examples/Animated/CandyCrash.html
+node_modules/paper/examples/Animated/Extruded.html
+node_modules/paper/examples/Animated/Lines.html
+node_modules/paper/examples/Animated/Smoothing.html
+node_modules/paper/examples/Animated/Space.html
+node_modules/paper/examples/Animated/SpaceUsingShapes.html
+node_modules/paper/examples/Games/Paperoids.html
+node_modules/paper/examples/JSON/Circle Testing.html
+node_modules/paper/examples/JSON/Compound Path.html
+node_modules/paper/examples/JSON/Empty Path Testing.html
+node_modules/paper/examples/JSON/Gradients.html
+node_modules/paper/examples/JSON/Group Transform.html
+node_modules/paper/examples/JSON/Line Testing.html
+node_modules/paper/examples/JSON/Random Path Testing.html
+node_modules/paper/examples/JSON/Raster.html
+node_modules/paper/examples/JSON/Rect and Attribute Testing.html
+node_modules/paper/examples/JSON/Rotated Primitives.html
+node_modules/paper/examples/JSON/Selection.html
+node_modules/paper/examples/JSON/Shapes.html
+node_modules/paper/examples/JSON/Symbols.html
+node_modules/paper/examples/JSON/Text Testing.html
+node_modules/paper/examples/JSON/Tiger.html
+node_modules/paper/examples/JSON/Transform Test 1.html
+node_modules/paper/examples/JSON/Transform Test 2.html
+node_modules/paper/examples/Node.js/AnimatedStar.js
+node_modules/paper/examples/Node.js/BooleanOperations.js
+node_modules/paper/examples/Node.js/in.json
+node_modules/paper/examples/Node.js/in.svg
+node_modules/paper/examples/Node.js/JSONtoPDF.js
+node_modules/paper/examples/Node.js/Raster.js
+node_modules/paper/examples/Node.js/RasterRemote.js
+node_modules/paper/examples/Node.js/SvgExport.js
+node_modules/paper/examples/Node.js/SvgImport.js
+node_modules/paper/examples/Node.js/Tadpoles.js
+node_modules/paper/examples/Node.js/Tadpoles.pjs
+node_modules/paper/examples/Paperjs.org/BooleanOperattions.html
+node_modules/paper/examples/Paperjs.org/BouncingBalls.html
+node_modules/paper/examples/Paperjs.org/Chain.html
+node_modules/paper/examples/Paperjs.org/DivisionRaster.html
+node_modules/paper/examples/Paperjs.org/FutureSplash.html
+node_modules/paper/examples/Paperjs.org/HitTesting.html
+node_modules/paper/examples/Paperjs.org/InteractiveTiger.html
+node_modules/paper/examples/Paperjs.org/MetaBalls.html
+node_modules/paper/examples/Paperjs.org/NyanRainbow.html
+node_modules/paper/examples/Paperjs.org/PathIntersections.html
+node_modules/paper/examples/Paperjs.org/Qbertify.html
+node_modules/paper/examples/Paperjs.org/RadialRainbows.html
+node_modules/paper/examples/Paperjs.org/RoundedRectangles.html
+node_modules/paper/examples/Paperjs.org/SatieLikedToDraw.html
+node_modules/paper/examples/Paperjs.org/Simplify.html
+node_modules/paper/examples/Paperjs.org/SpiralRaster.html
+node_modules/paper/examples/Paperjs.org/Tadpoles.html
+node_modules/paper/examples/Paperjs.org/Voronoi.html
+node_modules/paper/examples/Rasters/PhyllotaxisRaster.html
+node_modules/paper/examples/Rasters/Raster.html
+node_modules/paper/examples/Rasters/RotationRaster.html
+node_modules/paper/examples/Rasters/Smoothing.html
+node_modules/paper/examples/SVG Export/Circle Testing.html
+node_modules/paper/examples/SVG Export/Clipping.html
+node_modules/paper/examples/SVG Export/Compound Path.html
+node_modules/paper/examples/SVG Export/Empty Path Testing.html
+node_modules/paper/examples/SVG Export/Gradients.html
+node_modules/paper/examples/SVG Export/Group Transform.html
+node_modules/paper/examples/SVG Export/Line Testing.html
+node_modules/paper/examples/SVG Export/Random Path Testing.html
+node_modules/paper/examples/SVG Export/Raster.html
+node_modules/paper/examples/SVG Export/Rect and Attribute Testing.html
+node_modules/paper/examples/SVG Export/Rotated Primitives.html
+node_modules/paper/examples/SVG Export/Shapes.html
+node_modules/paper/examples/SVG Export/Symbols.html
+node_modules/paper/examples/SVG Export/Text Testing.html
+node_modules/paper/examples/SVG Export/Tiger.html
+node_modules/paper/examples/SVG Export/Transform Test 1.html
+node_modules/paper/examples/SVG Export/Transform Test 2.html
+node_modules/paper/examples/SVG Import/Arcs.html
+node_modules/paper/examples/SVG Import/Butterfly.html
+node_modules/paper/examples/SVG Import/Circle and Ellipse Testing.html
+node_modules/paper/examples/SVG Import/Clipping.html
+node_modules/paper/examples/SVG Import/From File.html
+node_modules/paper/examples/SVG Import/Gradient.html
+node_modules/paper/examples/SVG Import/Gradients.html
+node_modules/paper/examples/SVG Import/Inkscape Pivot.html
+node_modules/paper/examples/SVG Import/Inkscape.html
+node_modules/paper/examples/SVG Import/Line Testing.html
+node_modules/paper/examples/SVG Import/MoreGradients.html
+node_modules/paper/examples/SVG Import/Multiple Paths Test 1.html
+node_modules/paper/examples/SVG Import/Multiple Paths Test 2.html
+node_modules/paper/examples/SVG Import/Nested Groups Test.html
+node_modules/paper/examples/SVG Import/Polybezier.html
+node_modules/paper/examples/SVG Import/Rect Testing.html
+node_modules/paper/examples/SVG Import/Symbols.html
+node_modules/paper/examples/SVG Import/Testing.html
+node_modules/paper/examples/SVG Import/Text Testing.html
+node_modules/paper/examples/SVG Import/Tiger.html
+node_modules/paper/examples/SVG Import/Transform Testing.html
+node_modules/paper/examples/SVG Import/Viewbox.html
+node_modules/paper/examples/Scripts/Arcs.html
+node_modules/paper/examples/Scripts/BlendModes.html
+node_modules/paper/examples/Scripts/BooleanOperations.html
+node_modules/paper/examples/Scripts/CompoundPath.html
+node_modules/paper/examples/Scripts/CurveTimeParameterization.html
+node_modules/paper/examples/Scripts/HslColor.html
+node_modules/paper/examples/Scripts/PathStructure.html
+node_modules/paper/examples/Scripts/PathTangents.html
+node_modules/paper/examples/Scripts/Resize.html
+node_modules/paper/examples/Scripts/RoundRectangle.html
+node_modules/paper/examples/Scripts/Shapes.html
+node_modules/paper/examples/Scripts/StrokeBounds.html
+node_modules/paper/examples/Scripts/StrokeScaling.html
+node_modules/paper/examples/Tools/BezierTool.html
+node_modules/paper/examples/Tools/Circles.html
+node_modules/paper/examples/Tools/Clouds.html
+node_modules/paper/examples/Tools/DrippingBrush.html
+node_modules/paper/examples/Tools/FancyBrush.html
+node_modules/paper/examples/Tools/Grid.html
+node_modules/paper/examples/Tools/MultiLines.html
+node_modules/paper/examples/Tools/MultipleTools.html
+node_modules/paper/examples/Tools/PathEditing.html
+node_modules/paper/examples/Tools/SquareRounded.html
+node_modules/paper/examples/Tools/Stars.html
+node_modules/paper/examples/Tools/Vektor.html
+node_modules/paper/examples/Tools/Wave.html
+node_modules/paper/examples/Tools/WormFarm.html
+node_modules/paper/examples/Worker/Main.html
+node_modules/paper/examples/Worker/Worker.js
+node_modules/paper/examples/css/style.css
+node_modules/paperjs-offset/build.js
+node_modules/paperjs-offset/LICENSE
+node_modules/paperjs-offset/package.json
+node_modules/paperjs-offset/README.md
+node_modules/paperjs-offset/tsconfig.json
+node_modules/paperjs-offset/tslint.json
+node_modules/paperjs-offset/demo/debug.html
+node_modules/paperjs-offset/demo/debug.js
+node_modules/paperjs-offset/demo/demo.css
+node_modules/paperjs-offset/demo/demo.js
+node_modules/paperjs-offset/demo/index.html
+node_modules/paperjs-offset/demo/paperjs-offset.js
+node_modules/paperjs-offset/demo/paperjs-offset.min.js
+node_modules/paperjs-offset/dist/index.es5.js
+node_modules/paperjs-offset/dist/index.es5.js.map
+node_modules/paperjs-offset/dist/index.umd.js
+node_modules/paperjs-offset/dist/index.umd.js.map
+node_modules/paperjs-offset/dist/paperjs-offset.js
+node_modules/paperjs-offset/dist/paperjs-offset.min.js
+node_modules/paperjs-offset/dist/lib/bundle.js
+node_modules/paperjs-offset/dist/lib/bundle.js.map
+node_modules/paperjs-offset/dist/lib/index.js
+node_modules/paperjs-offset/dist/lib/index.js.map
+node_modules/paperjs-offset/dist/lib/offset_core.js
+node_modules/paperjs-offset/dist/lib/offset_core.js.map
+node_modules/paperjs-offset/dist/types/bundle.d.ts
+node_modules/paperjs-offset/dist/types/index.d.ts
+node_modules/paperjs-offset/dist/types/offset_core.d.ts
+node_modules/paperjs-offset/public/preview.jpg
+node_modules/paperjs-offset/src/bundle.ts
+node_modules/paperjs-offset/src/index.ts
+node_modules/paperjs-offset/src/offset_core.ts
