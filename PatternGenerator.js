@@ -30,6 +30,7 @@ export class PatternGenerator extends HTMLElement {
 			
 			<div id="content">
 				<canvas id="canvas"></canvas>
+				<button id="save">Save</button>
 			</div>
 				
 		`;
@@ -37,6 +38,27 @@ export class PatternGenerator extends HTMLElement {
 	
 		this.shadow.appendChild(container.content.cloneNode(true));
 		
+		this.shadow.getElementById('save').onclick = () => {
+			let svg = paper.project.exportSVG({asString: true})
+			// Create a Blob with the SVG content
+			const blob = new Blob([svg], {type: 'image/svg+xml'});
+			
+			// Create a temporary URL for the Blob
+			const url = URL.createObjectURL(blob);
+			
+			// Create a temporary anchor element
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = 'pattern.svg';
+			
+			// Append the link to the body, click it, and remove it
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			
+			// Revoke the temporary URL
+			URL.revokeObjectURL(url);
+		}
 	
 		
 
@@ -59,11 +81,11 @@ export class PatternGenerator extends HTMLElement {
 
 			this.sideLength = e.data.sideLength
 			this.height = e.data.height
+			this.connectionAmount = e.data.tripoints.length /3
 			
 			workerTile.postMessage({sides: 1, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
 			workerTile.postMessage({sides: 2, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
 			workerTile.postMessage({sides: 3, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
-			
 		};
 		worker.postMessage({ sides: 1 });
 
@@ -72,11 +94,14 @@ export class PatternGenerator extends HTMLElement {
 			
 			let elem = paper.project.importJSON(e.data.svg)
 			console.log(elem)
+			for(let e of elem.children){
+				e.fillColor = Color.random()
+			}
 			
-			elem.position = paper.view.center
-			elem.insertBelow(c)
+			//elem.position = paper.view.center
+			//elem.insertBelow(c)
 
-			this.addTile(e.data.sides, elem)
+			this.addTile(e.data.sides, elem, e.data.infos)
 
 			
 			
@@ -84,14 +109,119 @@ export class PatternGenerator extends HTMLElement {
 		
 	}
 
-	addTile(sides, tile){
+	drawRandom(array) {
+		if (array.length === 0) {
+			return undefined;
+		}
+		const randomIndex = Math.floor(Math.random() * array.length);
+		return array[randomIndex];
+	}
+
+	addTile(sides, tile, connectionInfo){
+		tile.connectionInfo = connectionInfo
 		this.tiles[sides].push(tile)
 		if(this.tiles[3].length > 0 && this.tiles[2].length > 0 && this.tiles[1].length > 0){
 			let baseGrid = this.createGrid(8,10)
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
+			this.startColorString(0,0, ["red", "blue"])
+
 		}
+	}
+
+	startColorString(x, y, colors){
+		let thread = this.drawRandom(this.tileGrid[x][y].children)
+		thread.fillColor = this.drawRandom(colors)
+		thread.isColored = true
+		console.log("colored connection", thread.parent.connectionInfo[thread.index])
+		this.findNextThread(thread)
+		return thread
+	}
+
+	findNextThread(thread){
+		console.log("thread find next", thread.parent.connectionInfo)
+		let correctInfo = thread.parent.connectionInfo[thread.index]
+		let endCurve = correctInfo.endCurve
+		let endPoint = correctInfo.endNr
+		let x = thread.parent.gridPos[0]
+		let y = thread.parent.gridPos[1]
+
+		let nextTile
+		switch(endCurve){
+			case 0:
+				console.log("x-1")
+				nextTile = this.tileGrid[x-1][y]
+				break
+			case 1:
+				console.log("x+1")
+				nextTile = this.tileGrid[x+1][y]
+				break
+			case 2:
+				console.log("y+1")
+				nextTile = this.tileGrid[x][y+1]
+				break
+		}
+
+		if(nextTile){
+			console.log("nextTile", nextTile)
+			let nextThread = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].startCurve == endCurve && e.parent.connectionInfo[index].startNr == this.connectionAmount -1 - endPoint || e.parent.connectionInfo[index].endCurve == endCurve && e.parent.connectionInfo[index].endNr == this.connectionAmount -1 - endPoint)
+			//if(nextThread){
+			//	this.findNextThread(nextThread)
+			//}
+			nextThread.fillColor = "green"
+			nextThread.strokeColor = "red"
+		}
+
+		//let nextTile = this.tileGrid[x+info.x][y+info.y]
+		//return this.drawRandom(nextTile.children)
+	}
+
+	correctConnectionPoints(tile){
+		console.log("tile to correct", tile.connectionInfo)
+		let info = tile.connectionInfo
+
+		let correctedInfo = []
+		for(let i = 0; i<info.length; i++){
+			if(!info[i]){
+				correctedInfo.push(undefined)
+			}else{
+				correctedInfo.push({
+					startNr: this.correctPoint(tile, info[i].startNr),
+					endNr: this.correctPoint(tile, info[i].endNr),
+					startCurve: this.correctCurve(tile, info[i].startCurve),
+					endCurve: this.correctCurve(tile, info[i].endCurve)
+				})
+			}
+		}
+		console.log("correctedInfo", correctedInfo)
+		return correctedInfo
+	}
+
+	correctPoint(tile, point){
+		if(tile.tileMirror){
+			return this.connectionAmount-1 - point
+		}
+		
+		return point
+	}
+
+	correctCurve(tile, curve){
+		let c = curve
+		
+		if(tile.tileMirror && tile.tileType > 1){
+			switch(c){
+				case 0:
+					c = 1
+					break
+				case 1:
+					c = 0
+					break
+			}
+		}
+
+		c = (c + tile.tileOrientation)%3
+		return c
 	}
 
 	createGrid(x,y){
@@ -130,7 +260,7 @@ export class PatternGenerator extends HTMLElement {
 				if(y>0){
 					lastTop = grid[x][y-1]
 				}
-				console.log("fillGrid",x, y, lastLeft, lastTop, this.hasLeftLine(lastLeft), this.hasTopLine(lastTop))   
+				
 				//let foundTile = this.getTile(this.hasLeftLine(lastLeft), this.hasTopLine(lastTop), hasEmpty)
 				//console.log(foundTile)
 				grid[x][y] = this.getTile(this.hasLeftLine(lastLeft), this.hasTopLine(lastTop), hasEmpty)
@@ -147,12 +277,16 @@ export class PatternGenerator extends HTMLElement {
 		let twoSide = this.tiles[2][0]
 		let oneSide = this.tiles[1][0]	
 		let mirrorPercentage = 0.5
+
+		this.tileGrid = []
+		console.log("threeside info", threeSide)
 	
 		
 		let lastPos = [100,100]
 		let l = this.sideLength
 		let h = this.height
 		for(let x = 0; x<grid.length; x++){
+			let row = []
 			for(let y = 0; y<grid[0].length; y++){
 				let shape
 				if(grid[x][y].type == 0){
@@ -161,32 +295,47 @@ export class PatternGenerator extends HTMLElement {
 				}
 				if(grid[x][y].type == 1){
 					shape = oneSide.clone()
+					shape.connectionInfo = oneSide.connectionInfo
+					paper.project.activeLayer.addChild(shape)
 					if(Math.random() < mirrorPercentage){
 						shape.rotate(-120)
 						shape.scale(-1,1)
 						shape.rotate(120)
+						shape.tileMirror = true
 					}
 				}
 				if(grid[x][y].type == 2){
 					shape = twoSide.clone()
+					shape.connectionInfo = twoSide.connectionInfo
+					paper.project.activeLayer.addChild(shape)
 					if(Math.random() < mirrorPercentage){
 						shape.scale(-1,1)
+						shape.tileMirror = true
 					}
 				}
 				if(grid[x][y].type == 3){
 					shape = threeSide.clone()
+					shape.connectionInfo = threeSide.connectionInfo
+					paper.project.activeLayer.addChild(shape)
 					if(Math.random() < mirrorPercentage){
 						shape.scale(-1,1)
+						shape.tileMirror = true
 					}
 				}
 				
 				shape.position = [200 + l/2*x,200+ h*y]
 				shape.rotate(grid[x][y].orientation * 120)
 				shape.rotate(grid[x][y].rotation, shape.bounds.center)
+				shape.gridPos = [x,y]
+				shape.tileOrientation = grid[x][y].orientation
+				shape.tileRotation = grid[x][y].rotation
+				shape.tileType = grid[x][y].type
 				shape.children[0].remove() //remove outer triangle
-				
-				//shape.rotate(grid[x][y].orientation * 60)
+				shape.connectionInfo = this.correctConnectionPoints(shape)
+
+				row.push(shape)
 			}
+			this.tileGrid.push(row)
 		}
 	}
 
@@ -313,15 +462,15 @@ export class PatternGenerator extends HTMLElement {
 		}
 
 		let t = tile[Math.floor(Math.random()*tile.length)];
-		if(t.type == 1){
-			t = tile[Math.floor(Math.random()*tile.length)];
-			if(t.type == 1){
-				t = tile[Math.floor(Math.random()*tile.length)];
-				if(t.type == 1){
-					t = tile[Math.floor(Math.random()*tile.length)];
-				}
-			}
-		}
+		// if(t.type == 1){
+		// 	t = tile[Math.floor(Math.random()*tile.length)];
+		// 	if(t.type == 1){
+		// 		t = tile[Math.floor(Math.random()*tile.length)];
+		// 		if(t.type == 1){
+		// 			t = tile[Math.floor(Math.random()*tile.length)];
+		// 		}
+		// 	}
+		// }
 		return t
 	}
 

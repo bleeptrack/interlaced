@@ -61,16 +61,20 @@ onmessage = function() {
     }
 
     function drawPoints(){
-        this.tri.curves.forEach(function(curve, idx){   
+        this.tri.curves.forEach(function(curve, cidx){   
             let row = []
             this.points.forEach(function(p, idx){
                     let sweepWidth = this.weights[idx]
                     let p1 = curve.getPointAt(p)
                     p1.sweepWidth = sweepWidth
+                    p1.connectNr = idx
+                    p1.curveNr = cidx
                     row.unshift(p1)
                     
                     let p2 = curve.getPointAt(curve.length-p)
                     p2.sweepWidth = sweepWidth
+                    p2.connectNr = (this.points.length*2)-1-idx
+                    p2.curveNr = cidx
                     row.push(p2)     
             })
             this.triPoints.push(...row)
