@@ -117,9 +117,15 @@ onmessage = function(e) {
                         targetCurve: line.connectionInfo.endCurve,
                         targetNr: line.connectionInfo.endNr
                     }
+                
                     info[line.connectionInfo.endCurve][line.connectionInfo.endNr] = {
                         targetCurve: line.connectionInfo.startCurve,
                         targetNr: line.connectionInfo.startNr
+                    }
+                }else{
+                    info[line.connectionInfo.startCurve][line.connectionInfo.startNr] = {
+                        targetCurve: undefined,
+                        targetNr: undefined
                     }
                 }
             }
@@ -142,8 +148,11 @@ onmessage = function(e) {
             if(lines[i].closed){
                 let l = sweep(lines[i+1])
                 l.fillColor = Color.random()
-                l.connectionInfo = lines[i].connectionInfo
-                allLines.push(lines[i].unite(l, {insert: false}))
+                
+                let fin = lines[i].unite(l, {insert: false})
+                fin.connectionInfo = lines[i+1].connectionInfo
+
+                allLines.push(fin)
                 i+=1
             }else{
                 let l = sweep(lines[i])

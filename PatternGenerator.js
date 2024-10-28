@@ -140,16 +140,26 @@ export class PatternGenerator extends HTMLElement {
 	}
 
 	findNextThread(thread){
-		console.log("thread find next", thread.parent.connectionInfo)
+		console.log("thread find next", thread.parent.connectionInfo, thread.index)
 		let correctInfo = thread.parent.connectionInfo[thread.index]
+		if(!correctInfo){
+			console.log("no correct info", thread.parent)
+			return
+		}
 		let endCurve = correctInfo.endCurve
 		let endPoint = correctInfo.endNr
+		if(isNaN(endCurve) || isNaN(endPoint)){
+			console.log("no endCurve - deco end reached", correctInfo)
+			return
+		}
+
 		let x = thread.parent.gridPos[0]
 		let y = thread.parent.gridPos[1]
 
 		let nextTile
-		switch(endCurve){
-			case 0:
+		try{
+			switch(endCurve){
+				case 0:
 				console.log("x-1")
 				nextTile = this.tileGrid[x-1][y]
 				break
@@ -160,7 +170,11 @@ export class PatternGenerator extends HTMLElement {
 			case 2:
 				console.log("y+1")
 				nextTile = this.tileGrid[x][y+1]
-				break
+					break
+			}
+		}catch(e){
+			console.log("no next tile")
+			return
 		}
 
 		if(nextTile){
