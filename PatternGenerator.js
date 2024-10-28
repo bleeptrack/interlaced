@@ -125,7 +125,7 @@ export class PatternGenerator extends HTMLElement {
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
-			this.startColorString(0,0, ["red", "blue"])
+			this.startColorString(0,0, ["black"])
 
 		}
 	}
@@ -135,19 +135,22 @@ export class PatternGenerator extends HTMLElement {
 		thread.fillColor = this.drawRandom(colors)
 		thread.isColored = true
 		console.log("colored connection", thread.parent.connectionInfo[thread.index])
+
+		//check in both directions
 		this.findNextThread(thread)
+		this.findNextThread(thread, false)
 		return thread
 	}
 
-	findNextThread(thread){
-		console.log("thread find next", thread.parent.connectionInfo, thread.index)
+	findNextThread(thread, checkEnd=true){
+		console.log("thread find next", thread.parent.connectionInfo, thread.index, thread.parent.rotation)
 		let correctInfo = thread.parent.connectionInfo[thread.index]
 		if(!correctInfo){
 			console.log("no correct info", thread.parent)
 			return
 		}
-		let endCurve = correctInfo.endCurve
-		let endPoint = correctInfo.endNr
+		let endCurve = checkEnd ? correctInfo.endCurve : correctInfo.startCurve
+		let endPoint = checkEnd ? correctInfo.endNr : correctInfo.startNr
 		if(isNaN(endCurve) || isNaN(endPoint)){
 			console.log("no endCurve - deco end reached", correctInfo)
 			return
@@ -160,17 +163,32 @@ export class PatternGenerator extends HTMLElement {
 		try{
 			switch(endCurve){
 				case 0:
-				console.log("x-1")
-				nextTile = this.tileGrid[x-1][y]
+					if(thread.parent.tileRotation == 0){
+						console.log("rot 0", "x-1")
+						nextTile = this.tileGrid[x-1][y]
+					}else{
+						console.log("rot 180", "x+1")
+						nextTile = this.tileGrid[x+1][y]
+					}
 				break
 			case 1:
-				console.log("x+1")
-				nextTile = this.tileGrid[x+1][y]
+				if(thread.parent.tileRotation == 0){
+					console.log("rot 0", "x+1")
+					nextTile = this.tileGrid[x+1][y]
+				}else{
+					console.log("rot 180", "x-1")
+					nextTile = this.tileGrid[x-1][y]
+				}
 				break
 			case 2:
-				console.log("y+1")
-				nextTile = this.tileGrid[x][y+1]
-					break
+				if(thread.parent.tileRotation == 0){
+					console.log("rot 0", "y+1")
+					nextTile = this.tileGrid[x][y+1]
+				}else{
+					console.log("rot 180", "y-1")
+					nextTile = this.tileGrid[x][y-1]
+				}
+				break
 			}
 		}catch(e){
 			console.log("no next tile")
@@ -179,12 +197,26 @@ export class PatternGenerator extends HTMLElement {
 
 		if(nextTile){
 			console.log("nextTile", nextTile)
-			let nextThread = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].startCurve == endCurve && e.parent.connectionInfo[index].startNr == this.connectionAmount -1 - endPoint || e.parent.connectionInfo[index].endCurve == endCurve && e.parent.connectionInfo[index].endNr == this.connectionAmount -1 - endPoint)
+			let nextThreadStart = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].startCurve == endCurve && e.parent.connectionInfo[index].startNr == this.connectionAmount -1 - endPoint && !e.isColored)
+			let nextThreadEnd = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].endCurve == endCurve && e.parent.connectionInfo[index].endNr == this.connectionAmount -1 - endPoint && !e.isColored)
+			
+			if(nextThreadStart){
+				console.log("nextThreadStart")
+				nextThreadStart.fillColor = "black"
+				nextThreadStart.isColored = true
+				this.findNextThread(nextThreadStart)
+			}else if(nextThreadEnd){
+				console.log("nextThreadEnd")
+				nextThreadEnd.fillColor = "black"
+				nextThreadEnd.isColored = true
+				this.findNextThread(nextThreadEnd, false)
+			}else{
+				console.log("no next thread")
+			}
 			//if(nextThread){
 			//	this.findNextThread(nextThread)
 			//}
-			nextThread.fillColor = "green"
-			nextThread.strokeColor = "red"
+			
 		}
 
 		//let nextTile = this.tileGrid[x+info.x][y+info.y]
