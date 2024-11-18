@@ -103,7 +103,12 @@ export class PatternGenerator extends HTMLElement {
 
 			this.addTile(e.data.sides, elem, e.data.infos)
 
-			
+			console.log("dispatching new tile event", this)
+			let navElem = elem.clone()
+			//navElem.firstChild.remove()
+			navElem.fillColor = "black"
+			navElem.firstChild.fillColor = "red"
+			this.dispatchEvent(new CustomEvent('pattern:new-tile', { detail: { sides: e.data.sides, bounds: elem.bounds, tile: navElem.exportSVG({bounds: elem.bounds}), infos: e.data.infos } }));
 			
 		}
 		

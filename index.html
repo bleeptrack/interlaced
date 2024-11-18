@@ -6,19 +6,19 @@
 
     <script src="node_modules/paper/dist/paper-full.js"></script>
     <script type="module">
-      import { PatternGenerator } from './PatternGenerator.js';
+      import { UI } from './UI.js';
 
       document.addEventListener('DOMContentLoaded', () => {
-        const patternGenerator = new PatternGenerator();
+        const ui = new UI();
         
-        document.body.appendChild(patternGenerator);
+        document.body.appendChild(ui);
       });
     </script>
     
   </head>
   <body>
   <style>
-    pattern-generator {
+    interlaced-ui {
       height: 100vh;
       display: block;
       width: 100vw;
