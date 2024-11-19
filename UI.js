@@ -26,7 +26,9 @@ export class UI extends HTMLElement {
 			</style>
 			
 			<nav id="nav">
-				<div id="3-side" class="side"></div>
+				<div id="3-side" class="side">
+                    <button id="3-side-button">+</button>
+                </div>
                 <div id="2-side" class="side"></div>
                 <div id="1-side" class="side"></div>
                 <div id="colors" class="side"></div>
@@ -52,6 +54,14 @@ export class UI extends HTMLElement {
             this.shadow.getElementById(`${e.detail.sides}-side`).appendChild(svg);
 
         });
+
+        this.shadow.getElementById('3-side-button').addEventListener('click', () => {
+            this.patternGenerator.requestTile(3)
+        })
+
+        this.shadow.getElementById('generate').addEventListener('click', () => {
+            this.patternGenerator.generatePattern()
+        })
 		
 
         this.shadow.getElementById('nav').after(this.patternGenerator);

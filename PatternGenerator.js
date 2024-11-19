@@ -75,28 +75,29 @@ export class PatternGenerator extends HTMLElement {
 		c.strokeColor = 'black'
 
 		const worker = new Worker('worker-tripoints.js');
-		const workerTile = new Worker('worker-tile.js');
+		this.workerTile = new Worker('worker-tile.js');
 		worker.onmessage = (e) => {
 			console.log("answer", e.data)
 
 			this.sideLength = e.data.sideLength
 			this.height = e.data.height
 			this.connectionAmount = e.data.tripoints.length /3
+			this.tripoints = e.data.tripoints
+			this.weights = e.data.weights
+			this.radius = e.data.radius
 			
-			workerTile.postMessage({sides: 1, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
-			workerTile.postMessage({sides: 2, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
-			workerTile.postMessage({sides: 3, tripoints: e.data.tripoints, weights: e.data.weights, radius: e.data.radius})
+			this.workerTile.postMessage({sides: 1, tripoints: this.tripoints, weights: this.weights, radius: this.radius})
+			this.workerTile.postMessage({sides: 2, tripoints: this.tripoints, weights: this.weights, radius: this.radius})
+			this.workerTile.postMessage({sides: 3, tripoints: this.tripoints, weights: this.weights, radius: this.radius})
 		};
 		worker.postMessage({ sides: 1 });
 
-		workerTile.onmessage = (e) => {
+		this.workerTile.onmessage = (e) => {
 			//console.log("answer tile", e.data.svg)
 			
 			let elem = paper.project.importJSON(e.data.svg)
-			console.log(elem)
-			for(let e of elem.children){
-				e.fillColor = Color.random()
-			}
+			
+			
 			
 			//elem.position = paper.view.center
 			//elem.insertBelow(c)
@@ -122,9 +123,19 @@ export class PatternGenerator extends HTMLElement {
 		return array[randomIndex];
 	}
 
+	requestTile(sides){
+		this.workerTile.postMessage({sides, tripoints: this.tripoints, weights: this.weights, radius: this.radius})
+	}
+
 	addTile(sides, tile, connectionInfo){
 		tile.connectionInfo = connectionInfo
 		this.tiles[sides].push(tile)
+		this.generatePattern()
+	}
+
+	generatePattern(){
+		console.log("generatePattern", this.tiles)
+		paper.project.activeLayer.removeChildren()
 		if(this.tiles[3].length > 0 && this.tiles[2].length > 0 && this.tiles[1].length > 0){
 			let baseGrid = this.createGrid(8,10)
 			console.log(baseGrid)
@@ -324,13 +335,12 @@ export class PatternGenerator extends HTMLElement {
 	spread(grid){
 		
 		
-		let threeSide = this.tiles[3][0]
-		let twoSide = this.tiles[2][0]
-		let oneSide = this.tiles[1][0]	
+		//let threeSide = this.tiles[3][0]
+		//let twoSide = this.tiles[2][0]
+		//let oneSide = this.tiles[1][0]	
 		let mirrorPercentage = 0.5
 
 		this.tileGrid = []
-		console.log("threeside info", threeSide)
 	
 		
 		let lastPos = [100,100]
@@ -345,6 +355,7 @@ export class PatternGenerator extends HTMLElement {
 					continue
 				}
 				if(grid[x][y].type == 1){
+					let oneSide = this.drawRandom(this.tiles[1])
 					shape = oneSide.clone()
 					shape.connectionInfo = oneSide.connectionInfo
 					paper.project.activeLayer.addChild(shape)
@@ -356,6 +367,7 @@ export class PatternGenerator extends HTMLElement {
 					}
 				}
 				if(grid[x][y].type == 2){
+					let twoSide = this.drawRandom(this.tiles[2])
 					shape = twoSide.clone()
 					shape.connectionInfo = twoSide.connectionInfo
 					paper.project.activeLayer.addChild(shape)
@@ -365,6 +377,7 @@ export class PatternGenerator extends HTMLElement {
 					}
 				}
 				if(grid[x][y].type == 3){
+					let threeSide = this.drawRandom(this.tiles[3])
 					shape = threeSide.clone()
 					shape.connectionInfo = threeSide.connectionInfo
 					paper.project.activeLayer.addChild(shape)
