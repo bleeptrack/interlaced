@@ -141,24 +141,42 @@ export class PatternGenerator extends HTMLElement {
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
-			this.startColorString(0,0, ["black"])
+
+			
+			for(let x = 0; x<this.tileGrid.length; x++){
+				for(let y = 0; y<this.tileGrid[0].length; y++){
+					while(this.startColorString(x,y, ["green", "blue", "orange"])){
+						console.log("coloring ...")
+					}
+				}
+			}
 
 		}
 	}
 
 	startColorString(x, y, colors){
-		let thread = this.drawRandom(this.tileGrid[x][y].children)
-		thread.fillColor = this.drawRandom(colors)
+		let color = this.drawRandom(colors)
+
+		let remaining = this.tileGrid[x][y].children.filter(e => e.isColored == false || Object.hasOwn(e, "isColored") == false)
+		if(remaining.length == 0){
+			console.log("no remaining threads")
+			return false
+		}
+
+		let thread = this.drawRandom(remaining)
+		thread.fillColor = color
 		thread.isColored = true
+		
 		console.log("colored connection", thread.parent.connectionInfo[thread.index])
 
 		//check in both directions
-		this.findNextThread(thread)
-		this.findNextThread(thread, false)
+		
+		this.findNextThread(thread, true, color)
+		this.findNextThread(thread, false, color)
 		return thread
 	}
 
-	findNextThread(thread, checkEnd=true){
+	findNextThread(thread, checkEnd=true, color="red"){
 		console.log("thread find next", thread.parent.connectionInfo, thread.index, thread.parent.rotation)
 		let correctInfo = thread.parent.connectionInfo[thread.index]
 		if(!correctInfo){
@@ -213,21 +231,31 @@ export class PatternGenerator extends HTMLElement {
 
 		if(nextTile){
 			console.log("nextTile", nextTile)
-			let nextThreadStart = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].startCurve == endCurve && e.parent.connectionInfo[index].startNr == this.connectionAmount -1 - endPoint && !e.isColored)
-			let nextThreadEnd = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].endCurve == endCurve && e.parent.connectionInfo[index].endNr == this.connectionAmount -1 - endPoint && !e.isColored)
+			let nextThreadStart = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].startCurve == endCurve && e.parent.connectionInfo[index].startNr == this.connectionAmount -1 - endPoint )
+			let nextThreadEnd = nextTile.children.find( (e, index) => e.parent.connectionInfo[index].endCurve == endCurve && e.parent.connectionInfo[index].endNr == this.connectionAmount -1 - endPoint )
 			
 			if(nextThreadStart){
+				if(nextThreadStart.isColored){
+					console.log("start already colored!")
+					return
+				}
 				console.log("nextThreadStart")
-				nextThreadStart.fillColor = "black"
+				nextThreadStart.fillColor = color
 				nextThreadStart.isColored = true
-				this.findNextThread(nextThreadStart)
+				this.findNextThread(nextThreadStart, false, color)
+				this.findNextThread(nextThreadStart, true, color)
 			}else if(nextThreadEnd){
+				if(nextThreadEnd.isColored){
+					console.log("end already colored!")
+					return
+				}
 				console.log("nextThreadEnd")
-				nextThreadEnd.fillColor = "black"
+				nextThreadEnd.fillColor = color
 				nextThreadEnd.isColored = true
-				this.findNextThread(nextThreadEnd, false)
+				this.findNextThread(nextThreadEnd, false, color)
+				this.findNextThread(nextThreadEnd, true, color)
 			}else{
-				console.log("no next thread")
+				console.log("no next thread", nextTile, endCurve, endPoint)
 			}
 			//if(nextThread){
 			//	this.findNextThread(nextThread)

@@ -13,7 +13,7 @@ onmessage = function(e) {
     this.radius = data.radius
 
     this.tri = new Path.RegularPolygon(view.bounds.center, 3, this.radius)
-    this.tri.strokeColor = 'black'
+    //this.tri.strokeColor = 'black'
 
     let result
     switch(data.sides){
@@ -304,7 +304,7 @@ onmessage = function(e) {
         }
         rect.translate(addPos.multiply(-1))
         rect.fillColor = 'red'
-        rect.strokeColor = 'black'
+        //rect.strokeColor = 'black'
         let norm = new Point(0,1).rotate(-60+addRot)
         rect.norm = norm
 
