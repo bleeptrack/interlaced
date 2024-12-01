@@ -1,7 +1,7 @@
 'use strict';
 
 export class PatternGenerator extends HTMLElement {
-	constructor(n) {
+	constructor(colors) {
 		
 		super();
 		this.tiles = {
@@ -11,6 +11,10 @@ export class PatternGenerator extends HTMLElement {
 		}
 	
 		this.shadow = this.attachShadow({ mode: 'open' });
+		let colorCopy = JSON.parse(JSON.stringify(colors))
+		this.backgroundColor = colorCopy.shift()
+		this.colors = colorCopy
+
 
 		const container = document.createElement('template');
 
@@ -138,6 +142,13 @@ export class PatternGenerator extends HTMLElement {
 		this.generatePattern()
 	}
 
+	setColors(colors){
+		let colorCopy = JSON.parse(JSON.stringify(colors))
+		this.backgroundColor = colorCopy.shift()
+		this.colors = colorCopy
+		this.generatePattern()
+	}
+
 	generatePattern(){
 		console.log("generatePattern", this.tiles)
 		paper.project.activeLayer.removeChildren()
@@ -150,7 +161,7 @@ export class PatternGenerator extends HTMLElement {
 			
 			for(let x = 0; x<this.tileGrid.length; x++){
 				for(let y = 0; y<this.tileGrid[0].length; y++){
-					while(this.startColorString(x,y, ["green", "blue", "orange"])){
+					while(this.startColorString(x,y, this.colors)){
 						console.log("coloring ...")
 					}
 				}

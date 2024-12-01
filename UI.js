@@ -1,6 +1,7 @@
 'use strict';
 
 import { PatternGenerator } from './PatternGenerator.js';
+import { ColorButton } from './ColorButton.js';
 
 export class UI extends HTMLElement {
 	constructor(n) {
@@ -10,6 +11,8 @@ export class UI extends HTMLElement {
 		this.shadow = this.attachShadow({ mode: 'open' });
 
 		const container = document.createElement('template');
+        let colors = ['#0F000A', '#6A5FDB', '#B2AAFF', '#FEF2FF', '#FF5053'];
+        document.body.style.backgroundColor = colors[0]
 
 		// creating the inner HTML of the editable list element
 		container.innerHTML = `
@@ -22,7 +25,7 @@ export class UI extends HTMLElement {
                     max-width: 100%;
                     height: 100%;
                     margin-bottom: 1vh;
-                    background-color: #f0f0f0;
+                    
                     display: inline-flex;
                     justify-content: flex-start;
                     flex-direction: row;
@@ -74,7 +77,6 @@ export class UI extends HTMLElement {
                 .side-container {
                     width: 100%;
                     height: 20vh;
-                    background-color: orange;
                 }
                 svg {
                     width: 20vh;
@@ -92,6 +94,13 @@ export class UI extends HTMLElement {
                     background-color: blue;
                     margin-left: 0 !important;
                 }
+                nav {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
 			</style>
 			
 			<nav id="nav">
@@ -101,13 +110,19 @@ export class UI extends HTMLElement {
                     </div>
                 </div>
                 <div class="side-container">
-                    <div id="2-side" class="side"></div>
+                    <div id="2-side" class="side">
+                        <button id="2-side-button" class="add-button">+</button>
+                    </div>
                 </div>
                 <div class="side-container">
-                    <div id="1-side" class="side"></div>
+                    <div id="1-side" class="side">
+                        <button id="1-side-button" class="add-button">+</button>
+                    </div>
                 </div>
                 <div class="side-container">
-                    <div id="colors" class="side"></div>
+                    <div id="colors" class="side">
+                        
+                    </div>
                 </div>
                 <button id="generate">Generate</button>
 			</nav>
@@ -117,7 +132,27 @@ export class UI extends HTMLElement {
 
 	
 		this.shadow.appendChild(container.content.cloneNode(true));
-		this.patternGenerator = new PatternGenerator();
+		this.patternGenerator = new PatternGenerator(colors);
+
+        colors.forEach((color, idx) => {
+            const colorButton = new ColorButton(color);
+            colorButton.id = `color-button-${idx}`
+            this.shadow.getElementById('colors').appendChild(colorButton);
+            colorButton.addEventListener('color-change', (e) => {
+                //this.patternGenerator.setColors(colors.map(color => e.detail));
+               
+                let colorButtons = this.shadow.querySelectorAll('color-button')
+                let colors = Array.from(colorButtons).map(colorButton => colorButton.getAttribute('color'))
+                console.log("color changed", e.detail, colors)
+                
+                if(e.target.id == `color-button-0`){
+                    document.body.style.backgroundColor = e.detail
+                }else{
+                    this.patternGenerator.setColors(colors)
+                }
+                
+            });
+        });
 
         this.patternGenerator.addEventListener('pattern:new-tile', (e) => {
             console.log("new tile event", e.detail.sides);
@@ -128,6 +163,15 @@ export class UI extends HTMLElement {
             svg.setAttribute("height", "100%");
             svg.setAttribute("viewBox", `${e.detail.bounds.x} ${e.detail.bounds.y} ${e.detail.bounds.width} ${e.detail.bounds.height}`);
             svg.appendChild(e.detail.tile);
+            svg.querySelectorAll('path').forEach( (path, idx) => {
+                if(idx == 0){
+                    path.style.fill = this.patternGenerator.colors[this.patternGenerator.colors.length-2]
+                    path.style.stroke = this.patternGenerator.colors[this.patternGenerator.colors.length-1]
+                    path.style.strokeWidth = "3"
+                }else{
+                    path.style.fill = this.patternGenerator.colors[0]
+                }
+            })
             svg.addEventListener('click', (elem) => {
                 let targetSVG = elem.target.closest('svg');
                 let sides = targetSVG.parentElement.id.split('-')[0];
@@ -142,6 +186,14 @@ export class UI extends HTMLElement {
 
         this.shadow.getElementById('3-side-button').addEventListener('click', () => {
             this.patternGenerator.requestTile(3)
+        })
+
+        this.shadow.getElementById('2-side-button').addEventListener('click', () => {
+            this.patternGenerator.requestTile(2)
+        })
+
+        this.shadow.getElementById('1-side-button').addEventListener('click', () => {
+            this.patternGenerator.requestTile(1)
         })
 
         this.shadow.getElementById('generate').addEventListener('click', () => {
