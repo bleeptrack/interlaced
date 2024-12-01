@@ -127,6 +127,11 @@ export class PatternGenerator extends HTMLElement {
 		this.workerTile.postMessage({sides, tripoints: this.tripoints, weights: this.weights, radius: this.radius})
 	}
 
+	deleteTile(sides, nr){
+		this.tiles[sides].splice(nr, 1)
+		this.generatePattern()
+	}
+
 	addTile(sides, tile, connectionInfo){
 		tile.connectionInfo = connectionInfo
 		this.tiles[sides].push(tile)
