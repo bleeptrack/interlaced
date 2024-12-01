@@ -19,19 +19,68 @@ export class UI extends HTMLElement {
 					height: 100%;
 				}
                 .side {
-                    width: 10vh;
-                    height: 10vh;
+                    max-width: 100%;
+                    height: 100%;
+                    margin-bottom: 1vh;
                     background-color: #f0f0f0;
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    flex-direction: row;
+                }
+                
+                /*highlight tile on hover*/
+                .side svg:hover {
+                    transform: scale(1.2);
+                    transition: all 0.4s ease-in-out;
+                }
+                .side svg {
+                    transform: scale(1);
+                    transition: all 0.4s ease-in-out;
+                }
+
+                /* fold in and out */
+                .side:hover svg:not(:first-of-type) {
+                    margin-left: 1vh;
+                    transition: all 0.4s ease-in-out;
+                }
+                .side svg:not(:first-of-type) {
+                    margin-left: -19vh;
+                    transition: all 0.4s ease-in-out;
+                }
+
+                .side-container {
+                    width: 100%;
+                    height: 20vh;
+                    background-color: orange;
+                }
+                svg {
+                    width: 20vh;
+                    height: 20vh;
+                    transform: scale(1);
+                    transition: transform 0.3s ease-in-out;
+                }
+                
+                .extended{
+                    background-color: blue;
+                    margin-left: 0 !important;
                 }
 			</style>
 			
 			<nav id="nav">
-				<div id="3-side" class="side">
-                    <button id="3-side-button">+</button>
+                <div class="side-container">
+                    <div id="3-side" class="side">
+                        <button id="3-side-button">+</button>
+                    </div>
                 </div>
-                <div id="2-side" class="side"></div>
-                <div id="1-side" class="side"></div>
-                <div id="colors" class="side"></div>
+                <div class="side-container">
+                    <div id="2-side" class="side"></div>
+                </div>
+                <div class="side-container">
+                    <div id="1-side" class="side"></div>
+                </div>
+                <div class="side-container">
+                    <div id="colors" class="side"></div>
+                </div>
                 <button id="generate">Generate</button>
 			</nav>
 
