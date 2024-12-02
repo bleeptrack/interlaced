@@ -39,9 +39,10 @@ export class ColorButton extends HTMLElement {
 			const input = document.createElement('input');
 			input.type = 'color';
 			input.click();
-			input.addEventListener('input', (e) => {
-				this.setColor(e.target.value);
+			input.addEventListener('change', (e) => {
+                this.setColor(e.target.value)
 			});
+            
 		});
 	}
 

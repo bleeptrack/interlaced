@@ -153,7 +153,7 @@ export class PatternGenerator extends HTMLElement {
 		console.log("generatePattern", this.tiles)
 		paper.project.activeLayer.removeChildren()
 		if(this.tiles[3].length > 0 && this.tiles[2].length > 0 && this.tiles[1].length > 0){
-			let baseGrid = this.createGrid(8,10)
+			let baseGrid = this.createGrid(20,10)
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
@@ -387,7 +387,7 @@ export class PatternGenerator extends HTMLElement {
 		this.tileGrid = []
 	
 		
-		let lastPos = [100,100]
+		let lastPos = [100,0]
 		let l = this.sideLength
 		let h = this.height
 		for(let x = 0; x<grid.length; x++){
@@ -431,7 +431,7 @@ export class PatternGenerator extends HTMLElement {
 					}
 				}
 				
-				shape.position = [200 + l/2*x,200+ h*y]
+				shape.position = [200 + l/2*x,100+ h*y]
 				shape.rotate(grid[x][y].orientation * 120)
 				shape.rotate(grid[x][y].rotation, shape.bounds.center)
 				shape.gridPos = [x,y]
