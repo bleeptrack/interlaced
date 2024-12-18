@@ -1,3 +1,6 @@
+self.importScripts('plugends.js')
+self.importScripts('leafends.js')
+
 onmessage = function(e) {
 	let data = e.data
     console.log("data tile worker", data)
@@ -315,44 +318,13 @@ onmessage = function(e) {
         let maxLength = this.tri.bounds.height*0.3
 
         let plugwidth = this.tri.bounds.height*0.05 / 2
-        let path = new Path()
-        path.add([-plugwidth*1.5, 0])
-        path.add([-plugwidth*1.5, maxLength*0.3])
-        path.add([-plugwidth, maxLength*0.3])
-        path.add([-plugwidth, maxLength*0.75])
-        path.add([-plugwidth/2, maxLength*0.75])
-        path.add([-plugwidth, maxLength*0.9])
-        path.add([0, maxLength])
-        path.add([plugwidth, maxLength*0.9])
-        path.add([plugwidth/2, maxLength*0.75])
-        path.add([plugwidth, maxLength*0.75])
-        path.add([plugwidth, maxLength*0.3])
-        path.add([plugwidth*1.5, maxLength*0.3])
-        path.add([plugwidth*1.5, 0])
-        path.rotate(180)
-        path.position = this.tri.position
-        path.pivot = path.bounds.bottomCenter.subtract([0,1])
-        path.fillColor = 'red'
-        path.closed = true
-        path.weight = plugwidth
-        return path
+        let plug = plugends[Math.floor(Math.random()*plugends.length)]
+        //let plug = plugends[0]
+        return plug(plugwidth, maxLength)
     }
 
     function createLeaf(){
-        let maxLength = this.tri.bounds.height*0.3
-        let leaf = new Path()
-        leaf.add(new Segment([0, 0], null, [-maxLength,0]))
-        leaf.add([0,-maxLength])
-        leaf.add(new Segment([0, 0], [maxLength,0], null))
-        leaf.add([2,0])
-        leaf.add([0,-maxLength])
-        leaf.add([-2,0])
-        leaf.closed = true
-        
-        leaf.pivot = new Point(0,-1)
-        leaf.position = this.tri.position
-        leaf.fillColor = 'green'
-        leaf.weight = 2
+        let leaf = leafend()
         return leaf
     }
     

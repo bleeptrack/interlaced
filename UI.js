@@ -26,6 +26,8 @@ export class UI extends HTMLElement {
 				}
                 .side {
                     max-width: 100%;
+                    min-width: 30vh;
+                    padding-left: 2vw;
                     height: 100%;
                     margin-bottom: 1vh;
                     background: linear-gradient(to right, var(--bg-color) 20vh, rgba(0,0,0,0) 30vh);
@@ -36,6 +38,10 @@ export class UI extends HTMLElement {
                 .side:hover {
                     background: linear-gradient(to right, var(--bg-color) 20vh, rgba(0,0,0,0) 100%);
                 }
+                #colors {
+                    align-items: center;
+                }
+                
                 
                 /*highlight tile on hover*/
                 .side svg:hover {
@@ -44,6 +50,14 @@ export class UI extends HTMLElement {
                 }
                 .side svg {
                     transform: scale(1);
+                    transition: all 0.4s ease-in-out;
+                }
+                .side color-button {
+                    transform: scale(1);
+                    transition: all 0.4s ease-in-out;
+                }
+                .side color-button:hover {
+                    transform: scale(1.2);
                     transition: all 0.4s ease-in-out;
                 }
 
@@ -57,9 +71,18 @@ export class UI extends HTMLElement {
                     margin-left: -19vh;
                     transition: all 0.4s ease-in-out;
                 }
+                .side:hover color-button:not(:first-of-type) {
+                    margin-left: 1vh;
+                    opacity: 1;
+                    transition: all 0.4s ease-in-out;
+                }
+                color-button:not(:first-of-type) {
+                    margin-left: -7vh;
+                    transition: all 0.4s ease-in-out;
+                }
 
                 /* opacity cascade */
-                .side svg:nth-of-type(1) {
+                .side svg:nth-of-type(1), {
                     opacity: 1;
                     z-index: 10;
                 }
@@ -77,6 +100,22 @@ export class UI extends HTMLElement {
                 }
                 .side svg:nth-of-type(n+5) {
                     opacity: 0.2;
+                    z-index: 6;
+                }
+
+                .side color-button:nth-of-type(1) {
+                    z-index: 10;
+                }
+                .side color-button:nth-of-type(2) {
+                    z-index: 9;
+                }
+                .side color-button:nth-of-type(3) {
+                    z-index: 8;
+                }
+                .side color-button:nth-of-type(4) {
+                    z-index: 7;
+                }
+                .side color-button:nth-of-type(n+5) {
                     z-index: 6;
                 }
 
@@ -106,6 +145,26 @@ export class UI extends HTMLElement {
                 .buttonicon {
                     width: 7vh !important;
                     height: 7vh !important;
+                }
+                #action-buttons .side{
+                    align-items: center;
+                }
+                #action-buttons button {
+                    width: 10vh;
+                    height: 10vh;
+                    background: none;
+                    border: none;
+                }
+                #action-buttons button svg {
+                    width: 10vh;
+                    height: 10vh;
+                    
+                    transform: scale(1);
+                    transition: transform 0.3s ease-in-out;
+                }
+                #action-buttons button svg:hover {
+                    transform: scale(1.2);
+                    transition: transform 0.3s ease-in-out;
                 }
                 nav {
                     position: absolute;
@@ -143,7 +202,16 @@ export class UI extends HTMLElement {
                         
                     </div>
                 </div>
-                <button id="generate">Generate</button>
+                <div class="side-container" id="action-buttons">
+                    <div class="side">
+                        <button id="generate">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-280q-73 0-127.5-45.5T284-440h62q13 44 49.5 72t84.5 28q58 0 99-41t41-99q0-58-41-99t-99-41q-29 0-54 10.5T382-580h58v60H280v-160h60v57q27-26 63-41.5t77-15.5q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
+                        </button>
+                        <button id="download"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                        </button>
+                    </div>
+                </div>
 			</nav>
 
 				
@@ -218,6 +286,10 @@ export class UI extends HTMLElement {
         this.shadow.getElementById('generate').addEventListener('click', () => {
             this.patternGenerator.generatePattern()
         })
+
+        this.shadow.getElementById('download').addEventListener('click', () => {
+            this.patternGenerator.saveSVG()
+        })
 		
 
         this.shadow.getElementById('nav').after(this.patternGenerator);
@@ -246,7 +318,29 @@ export class UI extends HTMLElement {
 
         let buttonSVGs = this.shadow.querySelectorAll('.buttonicon')
         buttonSVGs.forEach( (buttonSVG, idx) => {
-            buttonSVG.style.fill = this.patternGenerator.colors[0]
+            buttonSVG.querySelectorAll('path').forEach( (path, idx) => {
+                
+                    path.style.fill = this.patternGenerator.colors[2]
+                    path.style.stroke = this.patternGenerator.backgroundColor
+                    path.style.strokeWidth = "30"
+                    
+                
+            })
+        
+        })
+
+        let actionButtons = this.shadow.querySelectorAll('#action-buttons button')
+        actionButtons.forEach( (actionButton, idx) => {
+            actionButton.style.fill = this.patternGenerator.colors[2]
+            actionButton.style.stroke = this.patternGenerator.backgroundColor
+            actionButton.style.strokeWidth = "30"
+        })
+
+        let colorButtons = this.shadow.querySelectorAll('color-button')
+        colorButtons.forEach( (colorButton, idx) => {
+            let allColors = [this.patternGenerator.backgroundColor, ...this.patternGenerator.colors]
+            console.log("allColors", idx+1 % allColors.length)
+            colorButton.setBorderColor(allColors[(idx+1) % allColors.length])
         })
     }
 

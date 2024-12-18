@@ -34,38 +34,14 @@ export class PatternGenerator extends HTMLElement {
 			
 			<div id="content">
 				<canvas id="canvas"></canvas>
-				<button id="save">Save</button>
+				
 			</div>
 				
 		`;
 
 	
 		this.shadow.appendChild(container.content.cloneNode(true));
-		
-		this.shadow.getElementById('save').onclick = () => {
-			let svg = paper.project.exportSVG({asString: true})
-			// Create a Blob with the SVG content
-			const blob = new Blob([svg], {type: 'image/svg+xml'});
-			
-			// Create a temporary URL for the Blob
-			const url = URL.createObjectURL(blob);
-			
-			// Create a temporary anchor element
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = 'pattern.svg';
-			
-			// Append the link to the body, click it, and remove it
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			
-			// Revoke the temporary URL
-			URL.revokeObjectURL(url);
-		}
 	
-		
-
 	}
 	
 
@@ -119,6 +95,30 @@ export class PatternGenerator extends HTMLElement {
 		
 	}
 
+	saveSVG(){
+		
+			let svg = paper.project.exportSVG({asString: true})
+			// Create a Blob with the SVG content
+			const blob = new Blob([svg], {type: 'image/svg+xml'});
+			
+			// Create a temporary URL for the Blob
+			const url = URL.createObjectURL(blob);
+			
+			// Create a temporary anchor element
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = 'pattern.svg';
+			
+			// Append the link to the body, click it, and remove it
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			
+			// Revoke the temporary URL
+			URL.revokeObjectURL(url);
+		
+	}
+
 	drawRandom(array) {
 		if (array.length === 0) {
 			return undefined;
@@ -153,7 +153,7 @@ export class PatternGenerator extends HTMLElement {
 		console.log("generatePattern", this.tiles)
 		paper.project.activeLayer.removeChildren()
 		if(this.tiles[3].length > 0 && this.tiles[2].length > 0 && this.tiles[1].length > 0){
-			let baseGrid = this.createGrid(20,10)
+			let baseGrid = this.createGrid(20,10)  //45,73
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
@@ -181,6 +181,8 @@ export class PatternGenerator extends HTMLElement {
 
 		let thread = this.drawRandom(remaining)
 		thread.fillColor = color
+		thread.strokeColor = color
+		thread.strokeWidth = 1
 		thread.isColored = true
 		
 		console.log("colored connection", thread.parent.connectionInfo[thread.index])
@@ -257,6 +259,8 @@ export class PatternGenerator extends HTMLElement {
 				}
 				console.log("nextThreadStart")
 				nextThreadStart.fillColor = color
+				nextThreadStart.strokeColor = color
+				nextThreadStart.strokeWidth = 1
 				nextThreadStart.isColored = true
 				this.findNextThread(nextThreadStart, false, color)
 				this.findNextThread(nextThreadStart, true, color)
@@ -267,6 +271,8 @@ export class PatternGenerator extends HTMLElement {
 				}
 				console.log("nextThreadEnd")
 				nextThreadEnd.fillColor = color
+				nextThreadEnd.strokeColor = color
+				nextThreadEnd.strokeWidth = 1
 				nextThreadEnd.isColored = true
 				this.findNextThread(nextThreadEnd, false, color)
 				this.findNextThread(nextThreadEnd, true, color)

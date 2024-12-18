@@ -12,6 +12,14 @@ export class ColorButton extends HTMLElement {
 		// creating the inner HTML of the editable list element
 		container.innerHTML = `
 			<style>
+				button {
+					width: 10vh;
+					height: 10vh;
+					border-radius: 3vh;
+					border: none;
+					cursor: pointer;
+					border: 3px solid #000000;
+				}
 				
 			</style>
 			
@@ -48,9 +56,13 @@ export class ColorButton extends HTMLElement {
 
 	setColor(color) {
 		this.shadow.querySelector('#color-button').style.backgroundColor = color;
-		this.shadow.querySelector('#color-name').textContent = color;
+		//this.shadow.querySelector('#color-name').textContent = color;
         this.setAttribute('color', color);
         this.dispatchEvent(new CustomEvent('color-change', {detail: color}));
+	}
+
+	setBorderColor(color) {
+		this.shadow.querySelector('#color-button').style.borderColor = color;
 	}
 
 }
