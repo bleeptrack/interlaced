@@ -1,8 +1,8 @@
 self.importScripts('plugends.js')
 self.importScripts('leafends.js')
 
-var spacing = 3
-var minIntersectionArea = spacing*1.5
+var spacing = 5
+var minIntersectionArea = spacing*2
 
 onmessage = function(e) {
 	let data = e.data
@@ -239,8 +239,17 @@ onmessage = function(e) {
         }
 
         if(hasDecoEnds){
+            let placecount = 20
             let deco = createEnd()
             let deco2 = createEnd(false)
+            if(deco.intersects(deco2) && placecount > 0){
+                deco2.remove()
+                deco.remove()
+                deco = createEnd()
+                deco2 = createEnd(false)
+                console.log("retry placing", placecount)
+                placecount -= 1
+            }
             
             shuffle(available);
 
@@ -270,8 +279,8 @@ onmessage = function(e) {
     }
 
     function connectPoint(start, end, norm1, norm2, startWidth, endWidth){
-        let handleLength1 = Math.random()*10+30  //*100
-        let handleLength2 = Math.random()*10+30  //*100
+        let handleLength1 = Math.random()*30+30  //*100
+        let handleLength2 = Math.random()*30+30  //*100
         
         let line = new Path()
         //line.add(new Segment(available[0], null, view.bounds.center - available[0]))
@@ -300,15 +309,23 @@ onmessage = function(e) {
             rect = createLeaf()
         }
         
-        let addRot = Math.random()*180-90
+        let addRot = (Math.random()*180-90) + -30
         let addPosMax = this.tri.bounds.height*0.2
-        let addPos = new Point(0, 1).rotate(addRot).multiply(10)
-        
+        let addPos = new Point(0, 1).rotate(addRot)
         rect.rotate(120+addRot)
+        rect.bounds.center = this.tri.bounds.center
+        rect.translate([0, tri.bounds.height/6])
+        
+        
+        
+        
+        
         while(!rect.intersects(this.tri)){
             rect.translate(addPos)
         }
-        rect.translate(addPos.multiply(-1))
+        
+        rect.translate(addPos.multiply(-10))
+        
         rect.fillColor = 'red'
         //rect.strokeColor = 'black'
         let norm = new Point(0,1).rotate(-60+addRot)

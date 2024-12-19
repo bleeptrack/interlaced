@@ -1,6 +1,7 @@
 function leafend(){
     let randWidth = Math.random() + 0.3
     let maxLength = this.tri.bounds.height*0.3
+    maxLength = maxLength * (Math.random()*0.4 + 0.6)
     let leaf = new Path()
     leaf.add(new Segment([0, 0], null, [-maxLength*randWidth,0]))
     leaf.add([0,-maxLength])
@@ -9,7 +10,7 @@ function leafend(){
     leaf.closed = true
    
     //leaf = decoLeaf(leaf)
-    leaf = extendShapes(leaf)
+    leaf = extendShapes(leaf, maxLength)
     //leaf.add([2,0])
     //leaf.add([0,-maxLength])
     //leaf.add([-2,0])
@@ -21,10 +22,10 @@ function leafend(){
     return leaf
 }
 
-function extendShapes(leaf){
+function extendShapes(leaf, maxLength){
     let angle = 30
     let scaleDown = Math.random()*0.2 + 0.6
-    let maxLength = leaf.bounds.height
+    maxLength *=  (Math.random()*0.5 + 0.4)
     console.log("scaleDown", scaleDown)
     let nr = Math.floor(Math.random()*4) + 1
 
