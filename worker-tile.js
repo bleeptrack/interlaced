@@ -1,6 +1,9 @@
 self.importScripts('plugends.js')
 self.importScripts('leafends.js')
 
+var spacing = 3
+var minIntersectionArea = spacing*1.5
+
 onmessage = function(e) {
 	let data = e.data
     console.log("data tile worker", data)
@@ -182,19 +185,19 @@ onmessage = function(e) {
                     
                     for(let k = 0; k<inters.length; k++){
                         let inter = inters[k]
-                        if(inter.area > 3){
+                        if(inter.area > minIntersectionArea){
                             try{
-                                let bigCrossing = PaperOffset.offset(inter, 3)
+                                
+                                let initialCrossing = PaperOffset.offset(inter, spacing*3) 
+                                let intermidiate = allLines[j].intersect(initialCrossing, {insert: false})
+                                let bigCrossing = PaperOffset.offset(intermidiate, spacing) 
+                                initialCrossing.remove()
                                 bigCrossing.remove()
-                                if(Math.random()<0 && !inter.intersects(intersectionCheckPath)){
-                                    let info = allLines[j].connectionInfo
-                                    allLines[j] = allLines[j].subtract(bigCrossing, {insert: false})
-                                    allLines[j].connectionInfo = info
-                                }else{
-                                    info = allLines[i].connectionInfo
-                                    allLines[i] = allLines[i].subtract(bigCrossing, {insert: false})
-                                    allLines[i].connectionInfo = info
-                                }
+                               
+                                let info = allLines[i].connectionInfo
+                                allLines[i] = allLines[i].subtract(bigCrossing, {insert: false})
+                                allLines[i].connectionInfo = info
+                                
                                 intersectionCheckPath = intersectionCheckPath.unite(bigCrossing, {insert: false})
                             }catch(e){
                                 console.log("error", e)
@@ -267,8 +270,8 @@ onmessage = function(e) {
     }
 
     function connectPoint(start, end, norm1, norm2, startWidth, endWidth){
-        let handleLength1 = Math.random()*100+30
-        let handleLength2 = Math.random()*100+30
+        let handleLength1 = Math.random()*10+30  //*100
+        let handleLength2 = Math.random()*10+30  //*100
         
         let line = new Path()
         //line.add(new Segment(available[0], null, view.bounds.center - available[0]))

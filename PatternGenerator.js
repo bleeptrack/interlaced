@@ -153,7 +153,7 @@ export class PatternGenerator extends HTMLElement {
 		console.log("generatePattern", this.tiles)
 		paper.project.activeLayer.removeChildren()
 		if(this.tiles[3].length > 0 && this.tiles[2].length > 0 && this.tiles[1].length > 0){
-			let baseGrid = this.createGrid(20,10)  //45,73
+			let baseGrid = this.createGrid(16,5)  //45,73
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
 			this.spread(baseGrid)
@@ -181,8 +181,8 @@ export class PatternGenerator extends HTMLElement {
 
 		let thread = this.drawRandom(remaining)
 		thread.fillColor = color
-		thread.strokeColor = color
-		thread.strokeWidth = 1
+		//thread.strokeColor = color
+		//thread.strokeWidth = 1
 		thread.isColored = true
 		
 		console.log("colored connection", thread.parent.connectionInfo[thread.index])
@@ -259,8 +259,8 @@ export class PatternGenerator extends HTMLElement {
 				}
 				console.log("nextThreadStart")
 				nextThreadStart.fillColor = color
-				nextThreadStart.strokeColor = color
-				nextThreadStart.strokeWidth = 1
+				//nextThreadStart.strokeColor = color
+				//nextThreadStart.strokeWidth = 1
 				nextThreadStart.isColored = true
 				this.findNextThread(nextThreadStart, false, color)
 				this.findNextThread(nextThreadStart, true, color)
@@ -271,8 +271,8 @@ export class PatternGenerator extends HTMLElement {
 				}
 				console.log("nextThreadEnd")
 				nextThreadEnd.fillColor = color
-				nextThreadEnd.strokeColor = color
-				nextThreadEnd.strokeWidth = 1
+				//nextThreadEnd.strokeColor = color
+				//nextThreadEnd.strokeWidth = 1
 				nextThreadEnd.isColored = true
 				this.findNextThread(nextThreadEnd, false, color)
 				this.findNextThread(nextThreadEnd, true, color)
@@ -437,6 +437,7 @@ export class PatternGenerator extends HTMLElement {
 					}
 				}
 				
+				shape.scale(1.0017)
 				shape.position = [200 + l/2*x,100+ h*y]
 				shape.rotate(grid[x][y].orientation * 120)
 				shape.rotate(grid[x][y].rotation, shape.bounds.center)

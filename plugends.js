@@ -155,8 +155,8 @@ function euroPlug(plugwidth, maxLength){
 function addCut(path, pos, plugwidth, maxLength){
     let cut = new Path()
     cut.add([-plugwidth*10, maxLength*pos])
-    cut.add([-plugwidth*10, maxLength*(pos+0.03)])
-    cut.add([plugwidth*10, maxLength*(pos+0.03)])
+    cut.add([-plugwidth*10, maxLength*(pos+0.06)])
+    cut.add([plugwidth*10, maxLength*(pos+0.06)])
     cut.add([plugwidth*10, maxLength*pos])
     cut.closed = true
     tmp = path.subtract(cut)
