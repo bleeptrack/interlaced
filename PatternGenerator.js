@@ -156,6 +156,9 @@ export class PatternGenerator extends HTMLElement {
 			let baseGrid = this.createGrid(16,5)  //45,73
 			console.log(baseGrid)
 			this.fillGrid(baseGrid, false)
+			
+			//let baseGrid = this.makeTriskele()
+			
 			this.spread(baseGrid)
 
 			
@@ -349,6 +352,52 @@ export class PatternGenerator extends HTMLElement {
 			}
 			grid.push(row)
 		}
+		return grid
+	}
+
+	makeTriskele(){
+		let grid = [
+			[
+				{
+					type: 0
+				},
+				{
+					type: 0
+				}
+			],
+			[
+				{
+					type: 0
+				},
+				{
+					type: 1,
+					rotation: 0,
+					orientation: 1
+				}
+			],
+			[
+				{
+					type: 1,
+					rotation: 0,
+					orientation: 2
+				},
+				{
+					type: 3,
+					rotation: 180,
+					orientation: Math.floor(Math.random()*3)
+				}
+			],
+			[
+				{
+					type: 0
+				},
+				{
+					type: 1,
+					rotation: 0,
+					orientation: 0
+				}
+			]
+		]
 		return grid
 	}
 	

@@ -81,6 +81,21 @@ export class UI extends HTMLElement {
                     transition: all 0.4s ease-in-out;
                 }
 
+                .side svg:hover::after {
+                    content: "delete";
+                    position: absolute;
+                    bottom: -25px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    white-space: nowrap;
+                    pointer-events: none;
+                }
+
                 /* opacity cascade */
                 .side svg:nth-of-type(1), {
                     opacity: 1;
@@ -179,21 +194,21 @@ export class UI extends HTMLElement {
                 <div class="side-container">
                     <div id="3-side" class="side">
                         <button id="3-side-button" class="add-button">
-                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vh" fill="red"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vhpx" fill="#red"><path d="m40-120 440-760 440 760H40Zm139-80h602L480-720 179-200Zm261-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm40-120Z"/></svg>    
                         </button>
                     </div>
                 </div>
                 <div class="side-container">
                     <div id="2-side" class="side">
                         <button id="2-side-button" class="add-button">
-                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vh" fill="red"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vhpx" fill="#red"><path d="m40-120 440-760 440 760H40Zm139-80h602L480-720 179-200Zm261-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm40-120Z"/></svg>    
                         </button>
                     </div>
                 </div>
                 <div class="side-container">
                     <div id="1-side" class="side">
                         <button id="1-side-button" class="add-button">
-                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vh" fill="red"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                            <svg class="buttonicon" xmlns="http://www.w3.org/2000/svg" height="2vh" viewBox="0 -960 960 960" width="2vhpx" fill="#red"><path d="m40-120 440-760 440 760H40Zm139-80h602L480-720 179-200Zm261-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm40-120Z"/></svg>    
                         </button>
                     </div>
                 </div>
@@ -204,10 +219,13 @@ export class UI extends HTMLElement {
                 </div>
                 <div class="side-container" id="action-buttons">
                     <div class="side">
-                        <button id="generate">
+                        <button id="reset" title="get new tiles">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M320-280 80-520l240-240 57 56-184 184 184 184-57 56Zm480 80v-160q0-50-35-85t-85-35H433l144 144-57 56-240-240 240-240 57 56-144 144h247q83 0 141.5 58.5T880-360v160h-80Z"/></svg>
+                        </button>
+                        <button id="generate" title="generate new pattern">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-280q-73 0-127.5-45.5T284-440h62q13 44 49.5 72t84.5 28q58 0 99-41t41-99q0-58-41-99t-99-41q-29 0-54 10.5T382-580h58v60H280v-160h60v57q27-26 63-41.5t77-15.5q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-120q-33 0-56.5-23.5T120-200v-160h80v160h160v80H200Zm400 0v-80h160v-160h80v160q0 33-23.5 56.5T760-120H600ZM120-600v-160q0-33 23.5-56.5T200-840h160v80H200v160h-80Zm640 0v-160H600v-80h160q33 0 56.5 23.5T840-760v160h-80Z"/></svg>
                         </button>
-                        <button id="download"> 
+                        <button id="download" title="download SVG"> 
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
                         </button>
                     </div>
@@ -287,8 +305,16 @@ export class UI extends HTMLElement {
             this.patternGenerator.generatePattern()
         })
 
-        this.shadow.getElementById('download').addEventListener('click', () => {
-            this.patternGenerator.saveSVG()
+        if(new URLSearchParams(window.location.search).has('kiosk')) {
+            this.shadow.getElementById('download').remove();
+        } else {
+            this.shadow.getElementById('download').addEventListener('click', () => {
+                this.patternGenerator.saveSVG()
+            })
+        }
+
+        this.shadow.getElementById('reset').addEventListener('click', () => {
+            window.location.reload()
         })
 		
 

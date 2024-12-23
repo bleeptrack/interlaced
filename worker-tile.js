@@ -1,7 +1,7 @@
 self.importScripts('plugends.js')
 self.importScripts('leafends.js')
 
-var spacing = 5
+var spacing = 3
 var minIntersectionArea = spacing*2
 
 onmessage = function(e) {
